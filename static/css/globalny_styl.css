@@ -1,0 +1,552 @@
+/* pouzivatelske styly */
+body{
+  background-color: #f7f6e9;
+  margin: 0px;
+}
+#horizontalne-menu {
+	background-color: #191818;
+}
+
+#hlavne-menu .pure-menu-item > a {
+  color: #fffef6;
+  text-decoration: none;
+}
+h1, h2, th, p, span, h3, h4{
+  color: #383232;
+}
+header {
+  padding-left: 20px;
+  padding-top: 15px;
+}
+
+main {
+   padding: 10px;
+}
+
+.lavy-blok { width: 180px; float:left; height: 100%; }
+.content-holder { width: 100%; }
+
+#filter-produktov .pure-menu-item > a {
+  color: gray;
+}
+#filter-produktov .pure-menu-item > a:hover{
+  color: #191818;
+}
+
+ul {
+  list-style-type: none;
+}
+
+a {
+  color: MidnightBlue;
+}
+
+a:link {
+  text-decoration: none;
+}
+
+a:visited {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+a:active {
+  text-decoration: underline;
+}
+div.box-obsah a.produkt{
+  text-decoration: none;
+}
+.box {
+   width: 200px;
+   height: 280px;
+   padding: 25px;
+   position: relative;
+   float: left;
+   margin-left: 0px;
+   margin-top: 0px;
+   margin-right: 10px;
+   margin-bottom: 10px;
+   border-radius: 9px;
+   border: 1px solid LightGray;     
+}
+
+.box-obsah {
+   position: absolute;
+   left: 10px;
+   right: 10px;
+   top: 10px;
+   bottom: 10px;
+   padding: 10px;
+}
+
+.cislo {
+    text-align: right;
+}
+
+.pure-control-group {
+   margin-top: 20px;
+}
+
+.vertical-top-aligned {
+   vertical-align: top;
+}
+#menu{
+  margin-left: -150px;
+  width: 250px;
+  position: fixed;
+  top: 0;
+  left: 150px;
+  bottom: 0;
+  /* z-index: 1000; */
+  background: #1f2022;
+  overflow-y: auto;
+}
+.heading{
+  font-size: 20px;
+  padding-left: 5px;
+  padding-right:0px;
+  background: #0b67bb;
+  text-decoration: none;
+  color: #dedcea;
+  text-align: center;
+  
+}
+.heading:hover{
+  text-decoration: none;
+}
+#hlavne-menu{
+  float: right; 
+  background-color: #f7f6e9;
+}
+#menu-kosik{
+  margin-right: 2px;
+}
+.menu{
+  float: right;
+}
+
+
+
+
+/* ///PRODUKT/// */
+
+
+
+
+
+.button{
+  background-color: #6383d3;
+    border: none;
+    color: white;
+    padding: 12px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 5px;
+    margin-left: -3px;
+}
+.button:hover{
+  background-color: #809de6;
+}
+
+.pure-button.pure-button-primary.button{
+  background-color: #0078e7;
+  text-decoration: none;
+}
+#prihlasovanie-tlacidlo, #odhlasovacie-tlacitko{
+  margin-left: -4px;
+}
+.text-produkt{
+  text-align: center;
+  font-family: Signika,Helvetica,Arial,sans-serif;
+  font-style: italic;
+  color: #4a4343;
+  letter-spacing: 1.4px;
+  margin-top: 12px;
+}
+.to-right{
+  position: relative; 
+  margin-left: 17%; 
+  top: 50px;
+}
+#obsah.pure-g.to-right, footer.footer-distributed.to-right{
+  margin-left: 250px;
+}
+footer.footer-distributed.to-right{
+  width: auto;
+}
+main#produkt.to-right{
+  margin-left: 19%;
+}
+#produkt-title{
+  font-weight: bold;
+  text-align: left;
+  margin-left: 31px;
+  font-size: 30px;
+}
+#produkt-cena{
+  text-align: center;
+  font-family: Signika,Helvetica,Arial,sans-serif;
+  font-size: 18px;
+  font-style: italic;
+  font-weight: bold;
+  color: #191818;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+}
+#produkt-text{
+  font-family: Verdana;
+  font-size: 11px;
+  color: #191818;
+  line-height: 1.5;
+}
+#produkt-right{
+  position: absolute;
+  top: 49%;
+}
+#galeria_obrazky{
+  position: absolute;
+  top: 15%;
+  right: 1px;
+  width: 546px;
+}
+div#galeria_obrazky div.column{
+  float: left;
+  padding: 2px;
+  width: auto;
+}
+div#galeria_obrazky div.column img.produkt_img{
+  width: 90px;
+  height: 80px;
+  border: 1px solid #e4e6ce;
+}
+#produkt-potvrd{
+  margin-top: 7%;
+}
+
+
+/* ///KOSIK/// */
+#obsah.pure-g.to-left.kosik-obsah{
+  margin-left: 28%;
+}
+#kosik-table{
+  margin-top: 10%;
+}
+#kosik-left{
+  width: 490px;
+  position: relative;
+  left: -30px;
+}
+#kosik-right{
+  position: relative;
+  left: -114px;
+}
+#kosik-potvrdenie{
+  position: relative;
+  left: 200px;
+  margin: 1.5em 0 0 1em;
+}
+#kosik-confirm{
+  position: relative;
+  left: 25%;
+}
+.pure-control-group{
+  padding: 0.5em 0.1em;
+}
+.pure-form .pure-input-1-2.udaje{
+  width: 45%;
+}
+td a.kosik-zaznam{
+  font-family: Signika,Helvetica,Arial,sans-serif;
+    font-style: italic;
+    color: #615757;
+    letter-spacing: 1.2px;
+    text-decoration: none;
+}
+.chyba{
+  visibility: hidden;
+  font-size: 11px;
+  text-align: center;
+  color: #f33535;
+}
+.pure-table-bordered td {
+  border-bottom: 1px solid #cbcbcb;
+  color: #615757;
+}
+.pure-table-bordered td:last-child{
+  color: #383232;
+}
+th{
+  color: #383232;
+}
+
+
+/* GALERIA*/
+
+
+
+
+/* The grid: Four equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 22%;
+  padding: 10px;
+}
+
+/* Style the images inside the grid */
+.column img {
+  opacity: 0.8; 
+  cursor: pointer; 
+}
+
+.column img:hover {
+  opacity: 1;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* The expanding image container (positioning is needed to position the close button and the text) */
+.container {
+  position: relative;
+  display: none;
+}
+
+/* Expanding image text */
+#imgtext {
+  position: absolute;
+  bottom: 35px;
+  left: 14%;
+  color: white;
+  font-size: 20px;
+}
+
+/* Closable button inside the image */
+.closebtn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  color: white;
+  font-size: 35px;
+  cursor: pointer;
+}
+#expandedImg{
+  width: 400px;
+  height: 450px;
+  left: 22%;
+  position: absolute;
+  top: 84px;
+  left: 42px;
+  border: 1px solid #e4e6ce;
+}
+.produkt-img{
+  width: 140px;
+  height: 115px;
+  border: 1px solid #e4e6ce;
+  background-color: white;
+}
+#produkt-img{
+  margin-left: 32px;
+}
+#empty-cart{
+  text-align: center;
+  font-size: 40px;
+  margin-top: 120px;
+  margin-bottom: 80px;
+}
+#gallery-text{
+  font-size: 28px;
+}
+
+
+
+#prihlas-header{
+  padding-top: 16px;
+}
+.prihlasit-center {
+  text-align: center;
+  font-size: 18px;
+  margin-top: 40px;
+  margin-left: 15%;
+}
+
+
+
+
+
+
+
+/*FOOTER*/
+
+.footer-distributed{
+	background-color: #292c2f;
+	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
+	box-sizing: border-box;
+	width: 100%;
+	font: bold 16px sans-serif;
+	text-align: left;
+
+	padding: 20px 20px 0px;
+	overflow: hidden;
+}
+
+/* Footer left */
+
+.footer-distributed .footer-left{
+	float: left;
+}
+.footer-left{
+  margin: 40px 0px 0px 15px;
+}
+/* The company logo */
+
+.footer-distributed h3{
+	color:  #dedcea;
+	font: normal 36px 'Cookie', cursive;
+	margin: 0 0 10px;
+}
+
+.footer-distributed h3 span{
+	color:  #5383d3;
+}
+
+/* Footer links */
+
+.footer-distributed .footer-links{
+	color:  #dedcea;
+	padding: 0;
+}
+
+.footer-distributed .footer-links a{
+	display:inline-block;
+	line-height: 1.8;
+	text-decoration: none;
+	color:  inherit;
+}
+
+.footer-distributed .footer-company-name{
+	color:  #777;
+	font-size: 14px;
+	font-weight: normal;
+	margin: 0;
+}
+
+/* Footer social icons */
+
+.footer-distributed .footer-icons{
+	margin-top: 40px;
+}
+
+.footer-distributed .footer-icons a{
+	display: inline-block;
+	width: 35px;
+	height: 35px;
+	cursor: pointer;
+	background-color:  #33383b;
+	border-radius: 2px;
+
+	font-size: 20px;
+	color: #dedcea;
+	text-align: center;
+	line-height: 35px;
+
+	margin-right: 3px;
+	margin-bottom: 5px;
+}
+
+/* Footer Right */
+
+.footer-distributed .footer-right{
+	float: right;
+}
+.footer-right{
+  margin: 40px;
+}
+.footer-distributed .footer-right p{
+	display: inline-block;
+	vertical-align: top;
+	margin: 15px 42px 0 0;
+	color: #dedcea;
+}
+
+/* The contact form */
+
+.footer-distributed form{
+	display: inline-block;
+}
+
+.footer-distributed form input,
+.footer-distributed form textarea{
+	display: block;
+	border-radius: 3px;
+	box-sizing: border-box;
+	background-color:  #1b1c1f;
+	box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.1);
+	border: none;
+	resize: none;
+
+	font: inherit;
+	font-size: 14px;
+	font-weight: normal;
+	color:  #d1d2d2;
+
+	width: 400px;
+	padding: 12px;
+}
+
+.footer-distributed ::-webkit-input-placeholder {
+	color:  #5c666b;
+}
+
+.footer-distributed ::-moz-placeholder {
+	color:  #5c666b;
+	opacity: 1;
+}
+
+.footer-distributed :-ms-input-placeholder{
+	color:  #5c666b;
+}
+
+
+.footer-distributed form input{
+	height: 55px;
+	margin-bottom: 15px;
+}
+
+.footer-distributed form textarea{
+	height: 100px;
+	margin-bottom: 20px;
+}
+
+.footer-distributed form button{
+	border-radius: 3px;
+	background-color:  #33383b;
+	color: #dedcea;
+	border: 0;
+	padding: 15px 50px;
+	font-weight: bold;
+}
+
+.edit-produkt-obrazok {
+   padding: 5px;
+   position: relative;
+   float: left;
+   margin-left: 0px;
+   margin-top: 0px;
+   margin-right: 10px;
+   margin-bottom: 10px;
+   border-radius: 9px;
+   border: 1px solid LightGray;
+}
+
+.hlavny {
+    background-color: #0b67bb;
+}

@@ -1,0 +1,64 @@
+<nav class="blue darken-3" role="navigation">
+    <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Logo</a>
+      <ul class="right hide-on-med-and-down">
+        <li><a id="menu-prehlad" href="/prehlad" >Prehľad</a></li>
+        {% if kwargs['admin'] %}
+            <li><a id="menu-uprava" href="/produkt_editacia_zoznam" >Správa produktov</a></li>
+            <li><a id="menu-admin"  href="/objednavky" >Objednávky</a></li>
+        {% endif %}
+        <li><a id="menu-kosik" href="/kosik" >Nákupný košík</a></li>
+
+        {% if kwargs['prihlaseny'] %}
+            <li><a href="/odhlasit">Odhlásiť sa</a></li>
+            <li><a href="/profil">Profil {{kwargs['login']}}</a></li>
+        {% else %}
+            <li><a href="/prihlasit">Prihlásiť sa</a></li>
+            <li><a href="/registracia">Registrácia zákazníka</a></li>
+        {% endif %}
+      </ul>
+
+      <ul id="nav-mobile" class="sidenav">
+        <li><a href="/prehlad" >Prehľad</a></li>
+        {% if kwargs['admin'] %}
+            <li><a href="/produkt_editacia_zoznam" >Správa produktov</a></li>
+            <li><a href="/objednavky" >Objednávky</a></li>
+        {% endif %}
+        <li><a href="/kosik" >Nákupný košík</a></li>
+
+        {% if kwargs['prihlaseny'] %}
+            <li><a href="/odhlasit">Odhlásiť sa</a></li>
+            <li><a href="/profil">Profil {{kwargs['login']}}</a></li>
+        {% else %}
+            <li><a href="/prihlasit">Prihlásiť sa</a></li>
+            <li><a href="/registracia">Registrácia zákazníka</a></li>
+        {% endif %}
+      </ul>
+      <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+    </div>
+</nav>
+
+<!--
+<nav>
+    <div id="horizontalne-menu" class="header pure-g">
+        <div id="hlavne-menu" class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed" >
+            <ul  class="pure-menu-list menu">
+                <li class="pure-menu-item"><a id="menu-prehlad" href="/prehlad"    class="pure-menu-link button" >Prehľad</a></li>
+                {% if kwargs['admin'] %}
+                    <li class="pure-menu-item"><a id="menu-uprava" href="/produkt_editacia_zoznam" class="pure-menu-link button" >Správa produktov</a></li>
+                    <li class="pure-menu-item"><a id="menu-admin" href="/objednavky" class="pure-menu-link button" >Objednávky</a></li>
+                {% endif %}
+                <li class="pure-menu-item"><a id="menu-kosik"   href="/kosik"      class="pure-menu-link button" >Nákupný košík</a></li>
+                
+            {% if kwargs['prihlaseny'] %}
+                <a id="odhlasovanie-tlacidlo" class="pure-button pure-button-primary button" href="/odhlasit">Odhlásiť sa</a>
+                <a id="profil-tlacidlo" class="pure-button pure-button-primary button" href="/profil">Profil {{kwargs['login']}}</a>
+            {% else %}
+                <a id="prihlasovanie-tlacidlo" class="pure-button pure-button-primary button" href="/prihlasit">Prihlásiť sa</a>
+                <a id="registracia-tlacidlo" class="pure-button pure-button-primary button" href="/registracia">Registrácia zákazníka</a>
+            {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+-->
+

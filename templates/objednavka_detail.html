@@ -1,0 +1,92 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Detail objednávky</title>
+  <meta name="description" content="Objednávka detail">
+  <meta name="author" content="Patrik Grexa">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  {% include "include_head.html" %}
+
+  <!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
+  <![endif]-->
+</head>
+<body style="padding-left: 15px;">
+  <!-- OBSAH STRANKY -->
+
+  {% include "menu.html" %}
+  
+
+<div class="container">
+    <div class="nav-wrapper">
+        <div class="row">
+        <div class="center-align blue-text text-darken-2">
+            <header class="header">
+            <h3>Detail objednávky</h3>
+            </header>
+        </div>
+        </div>
+    </div>
+</div>
+  <main>
+        <div id="obsah" class="container row">
+            <br>
+            <table class="striped hoverable responsive-table col s8 offset-s2 row z-depth-1">
+                <tbody>
+                    <tr><td><strong>Id objednávky:           </strong></td><td>{{ objednavka.obj_id }}        </td></tr>
+                    <tr><td><strong>Čas objednávky:          </strong></td><td>{{ objednavka.obj_datum_cas }} </td></tr>
+                    <tr><td><strong>Celková cena objednávky: </strong></td><td>{{ '%0.2f' % objednavka.obj_cena|float }} </td></tr>
+                    <tr><td><strong>Spôsob platby:           </strong></td><td>{{ objednavka.obj_platba }}    </td></tr>
+                    <tr><td><strong>Spôsob dopravy:          </strong></td><td>{{ objednavka.obj_doprava }}   </td></tr>
+                    <tr><td><strong>Meno zákazníka:          </strong></td><td>{{ objednavka.zak_meno }}      </td></tr>
+                    <tr><td><strong>Adresa zákazníka:        </strong></td><td>{{ objednavka.zak_ulica_cislo }},<br>
+                                                              {{ objednavka.zak_psc }} {{ objednavka.zak_obec }} </td>
+                    </tr>
+                    <tr><td><strong>Tel.:                    </strong></td><td>{{ objednavka.zak_telefon }}   </td></tr>
+                    <tr><td><strong>E-mail:                  </strong></td><td>{{ objednavka.zak_email }}      </td></tr>
+                </tbody>
+            </table>
+            
+            {% if polozky|length < 1 %}
+                <h2>Neexistuje položka objednávky!</h2>
+            {% else %}
+                <table class="responsive-table hoverable col s12 row z-depth-1">
+                    <thead>
+                        <tr>
+                            <th class="center-align">Produkt         </th>
+                            <th class="center-align">Kategória       </th>
+                            <th class="center-align">Popis           </th>
+                            <th class="center-align">Jednotková cena </th>
+                            <th class="center-align">Počet           </th>
+                            <th class="center-align">Celková cena    </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for r in polozky %}
+                            <tr>
+                                <td class="center-align">{{ r.pro_nazov       }}</td>
+                                <td>{{ r.kat_nazov       }}</td>
+                                <td>{{ r.pro_popis       }}</td>
+                                <td class="right-align">{{ '%0.2f' % r.cena_jednotkova|float }}</td>
+                                <td class="right-align">{{ r.pocet           }}</td>
+                                <td class="right-align" style="padding: 0px 10px;">{{ '%0.2f' % r.cena_celkova|float }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+        </div>
+    </main>
+
+  <footer>
+      <div id="paticka">
+
+      </div>
+  </footer>
+
+</body>
+</html>

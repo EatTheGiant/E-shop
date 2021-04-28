@@ -1,0 +1,236 @@
+<!doctype html>
+<!--TODO
+  ///side menu upravit tak aby sa dalo preskakovat na produkty zo vsetkych podstranok
+  ///Urobit galeriu 
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Produkt</title>
+  <meta name="description" content="Produkt">
+
+  {% include "include_head.html" %}
+</head>
+<body>
+  <!-- OBSAH STRANKY -->
+    
+
+    {% include "menu.html" %}
+
+    <div class="container">
+        <div class="nav-wrapper">
+          <div class="row">
+            <div class="center-align blue-text text-darken-2">
+              <header class="header">
+                <h3>Editácia/pridávanie produktu</h3>
+              </header>
+            </div>
+          </div>
+        </div>
+    </div>
+	<main id="produkt">
+        <div id="obsah" class="row">
+            <a id="spat-na-zoznam" href="/produkt_editacia_zoznam" class="btn green waves-effect waves-light col s1" >Späť</a>
+            <br><br>
+            <div class="valign-wrapper row login-box">
+                <div class="col card hoverable s10 pull-s1 m8 pull-m2 l6 pull-l3">
+                    <form id="form-produkt">
+                        <input id="produkt-id" type="hidden" />
+                        <div class="card-content">
+                            <span class="card-title">Editácia produktu</span>
+                            <div class="input-field col s12">
+                                <label for="nazov">Názov</label>
+                                <input id="nazov" type="text" class="validate" placeholder="Názov"/>  
+                            </div>
+                            <div class="input-field col s12">
+                                <label for="popis">Popis</label>
+                                <textarea id="popis" name="popis" rows="10" class="materialize-textarea" placeholder="Popis"></textarea>
+                            </div>
+                            <div class="col s12">
+                                <label for="kategoria">Kategória</label>
+                                <select id="kategoria" name="kategoria" class="browser-default">
+                                    <option value="-1" disabled selected>Vyberte kategóriu</option>
+                                    {% if kategorie %}
+                                    {% for r in kategorie %}
+                                        <option value="{{r.id}}">{{r.kategoria_nazov|safe}}</option>
+                                    {% endfor %}
+                                    {% endif %}
+                                </select>
+                            </div>
+                        
+                            <div class="input-field col s8">
+                                    <input id="cena" type="text" value="0" class="validate" />
+                                <label for="cena">Cena</label>
+                            </div>
+                            <div class="row">
+                                <button id="btn-submit" type="submit" name="action" class="btn green waves-effect waves-light col s4 offset-s4">Odoslať</button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <form id="form-obrazok-upload">
+                        <span class="card-title">Pridávanie obrázkov</span>
+                        <div class="file-field col s12">
+                            <div class="btn col s2">
+                                <span>File</span>
+                                <input type="file" name="obrazok-upload" id="obrazok-upload">
+                            </div>
+                            <div class="file-path-wrapper col s10">
+                                <input class="file-path validate" type="text">
+                            </div>
+                            <button id="btn-submit-obrazok-upload" type="submit" class="btn green waves-effect waves-light input-field col s2 offset-s5">Nahrať obrázok</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <style>
+            .hlavny {
+                background-color: #0b67bb;
+            }
+        </style>
+
+        <div class="row">
+            {% if obrazky %}
+            <div class="file-field col s5 offset-s3" >
+                <div class="row">
+                {% for r in obrazky %}
+                     <div class="card col s2 m4 l3 xl2 hoverable" style="height:120px; width:120px;" >
+                        <div class="card-image waves-effect waves-block waves-light {% if r.hlav_obr == 1 %} hlavny z-depth-3 {% endif %}" onclick="return nastav_hlavny('{{r.obr_id}}')">
+                        <!-- <div class="card-image col s12 waves-effect waves-block waves-light hoverable {% if r.hlav_obr == 1 %} hlavny z-depth-3 {% endif %}" style="height:150px; width:120px; " onclick="return nastav_hlavny('{{r.obr_id}}')"> -->
+                        <img src="/static/img/velke/{{r.obr_subor}}" class="col s12" onclick="return nastav_hlavny('{{r.obr_id}}')" >
+                        </div>
+                    </div>
+                {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </div> 
+	</main>
+
+  {% include "footer.html" %}
+
+  <!-- JS SKRIPTY -->
+  <script src="../static/js/underscore.js"    type="text/javascript"></script>
+  <script src="../static/js/jquery.min.js"    type="text/javascript"></script>
+  <script src="../static/js/backbone.js"      type="text/javascript"></script>
+  <script src="../static/js/global_model.js"  type="text/javascript"></script>
+  <script>
+      var nastav_hlavny = function (_id) {
+          $.ajax({
+              type: "PUT",
+              url: "/obrazok-nastav-hlavny/" + _id,
+              data: "",
+              dataType: "json",
+              cache: false,
+              contentType: "application/json;charset=UTF-8",
+              timeout: 993500,
+              success: function () {
+                  console.log(">>> nastav_hlavny() OK");
+                  location.reload();
+              },
+              error: function (jqXHR, textStatus, errorThrown) {
+                  console.log(">>> nastav_hlavny() Chyba!");
+              }
+          });
+          return true;
+      };
+
+      $(document).ready(function() {
+
+        $(function () {
+            $('#produkt-id').val("{{ __id           }}");
+            $('#nazov')     .val("{{ __nazov|safe   }}");
+            $('#popis')     .val("{{ __popis|safe   }}");
+            $('#kategoria') .val("{{ __kat_kod|safe }}");
+            $('#cena')      .val("{{ __cena         }}");
+        });
+
+        var kontrola = function (obj) {
+          return !(_.isNaN(obj) || _.isNull(obj) || _.isUndefined(obj) || _.isEmpty(obj));
+        };
+        
+
+        $("#form-obrazok-upload").submit(function(event) {
+            event.preventDefault();
+
+            _id = $('#produkt-id').val();
+
+            if (!kontrola(_id)) {
+                alert("Obrázok nebol odoslaný!\nNie je známy identifikátor produktu.");
+                return;
+            }
+
+            var formData = new FormData($(this)[0]);
+            $.ajax({
+                type: "POST",
+                url: "/obrazok-upload/" + _id,
+                data : formData,
+                processData: false,
+                contentType: false,
+                cache: false,
+                timeout: 993500,
+                success: function () {
+                    console.log(">>> form-obrazok-upload.onSubmit() OK");
+                    location.reload();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(">>> form-obrazok-upload.onSubmit() Chyba!");
+                }
+            });
+        });
+
+
+
+
+        $("#form-produkt").submit(function(event) {
+            event.preventDefault();
+            _id        = $('#produkt-id').val();
+            _nazov     = $('#nazov').val();
+            _popis     = $('#popis').val();
+            _kategoria = $('#kategoria').val();
+            _cena      = $('#cena').val();
+
+            if (!kontrola(_id)) {
+                _id = '-1';
+            }
+
+            if (!kontrola(_nazov)) {
+              alert("Položka Názov je povinná!");
+              return;
+            }
+
+            if (_kategoria == '-1') {
+              alert("Položka Kategória je povinná!");
+              return;
+            }
+
+            $.ajax({
+                type: "PUT",
+                url: "/produkt_editacia",
+                data: JSON.stringify({
+                    'id'       : _id,
+                    'nazov'    : _nazov,
+                    'popis'    : _popis,
+                    'kategoria': _kategoria,
+                    'cena'     : _cena
+                }, null, '\t'),
+                dataType: "json",
+                cache: false,
+                contentType: "application/json;charset=UTF-8",
+                timeout: 993500,
+                success: function () {
+                    alert("Produkt bol úspešne zapísaný!");
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(">>> form-produkt.onSubmit() Chyba!");
+                }
+            });
+        });
+
+      });
+  </script>
+</body>
+</html>

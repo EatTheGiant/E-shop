@@ -1,0 +1,88 @@
+<footer class="page-footer grey darken-2" >
+        <div class="row">
+            <div class="col s4 offset-s1">
+                <a href="/prehlad"><h4>Elektronický <span>obchod</span></h4></a>
+            </div>
+            <div class="col s6">
+                <p>Kontaktujte nás</p>
+                <form id="form-sprava">
+
+                    <div class="input-field col s12">
+                      <input id="sprava-email" placeholder="Email" type="email" class="validate" style="color: white;">
+                      <label for="sprava-email">E-mail</label>
+                    </div>
+
+                    <div class="input-field col s12">
+                      <textarea id="sprava-obsah" class="materialize-textarea" placeholder="Napíšte správu..." style="color: white;"></textarea>
+                      <label for="sprava-obsah">Obsah správy</label>
+                    </div>
+
+                    <button id="submit" class="btn waves-effect waves-light" type="submit">Odoslať</button>
+                    <!--
+                    <input    id="sprava-email" name="email" type="email" placeholder="Email" />
+                    <textarea id="sprava-obsah" name="obsah" placeholder="Napíšte správu..."></textarea>
+                    <button id="submit" type="submit" >Odoslať</button>
+                    -->
+                </form>
+            </div>
+        </div>
+    <div class="footer-copyright">
+        <div class="row">
+            <div class="col s12">
+                Elektronický obchod &copy; 2019, Patrik Grexa
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="../static/js/underscore.js" type="text/javascript"></script>
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="../static/js/materialize.js"></script>
+<script src="../static/js/init.js"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function() {
+
+      var kontrola = function (obj) {
+        return !(_.isNaN(obj) || _.isNull(obj) || _.isUndefined(obj) || _.isEmpty(obj));
+      };
+
+      $("#form-sprava").submit(function(event) {
+          event.preventDefault();
+          _email = $('#sprava-email').val();
+          _obsah = $('#sprava-obsah').val();
+          if (!kontrola(_email)) {
+            alert("Položka Email je povinná!");
+            return;
+          }
+          if (!kontrola(_obsah)) {
+            alert("Správa je prázdna!");
+            return;
+          }
+
+          $.ajax({
+              type: "PUT",
+              url: "/sprava",
+              data: JSON.stringify({
+                  'sprava_email': _email,
+                  'sprava_obsah': _obsah
+              }, null, '\t'),
+              dataType: "json",
+              cache: false,
+              contentType: "application/json;charset=UTF-8",
+              timeout: 993500,
+              success: function () {
+                  alert("Správa bola úspešne odoslaná!");
+                  $('#sprava-email').val("");
+                  $('#sprava-obsah').val("");
+              },
+              error: function (jqXHR, textStatus, errorThrown) {
+                  console.log(">>> odosliSpravu Chyba!");
+              }
+          });
+      });
+
+    });
+
+</script>

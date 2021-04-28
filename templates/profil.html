@@ -1,0 +1,272 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Registrácia zákazníka</title>
+  <meta name="description" content="Profil používateľa">
+  <meta name="author" content="Patrik Grexa">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  {% include "include_head.html" %}
+
+  <!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
+  <![endif]-->
+</head>
+<body>
+<!-- OBSAH STRANKY -->
+{% include "menu.html" %}
+
+
+<main>
+    <div id="prihlas-header">
+        <div id="nadpis">
+            <h1 class="center-align"></h1>
+        </div>
+    </div>
+
+    
+  <div class="container">
+        <div class="nav-wrapper">
+          <div class="row">
+            <div id="prihlas-header" class="center-align blue-text text-darken-2">
+              <header id="nadpis" class="header">
+                <h3>Profil používateľa '{{kwargs['login']}}'</h3>
+              </header>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <!-- id pouzivatela s ktorym pracujeme -->
+    <input id="pou-id" type="hidden" value="{{kwargs['pou_id']}}"/>
+
+    <div class="valign-wrapper row login-box">
+        <div class="col card hoverable s10 pull-s1 m6 pull-m3 l4 pull-l4">
+            <form id="profil-formular" >
+                <div class="card-content">
+                    <span class="card-title" style="padding-bottom: 1em;">Zmena hesla používateľa '{{kwargs['login']}}'</span>
+                    <div class="col s12">
+                        <div class="input-field">
+                            <input id="profil-meno" class="validate" type="text" placeholder="Meno..." value="{{kwargs['login']}}" readonly>
+                            <label for="profil-meno">Prihlasovacie meno</label>
+                        </div>
+                        <div class="input-field">
+                            <input id="profil-heslo1" type="password" placeholder="Heslo..." >
+                            <label for="profil-heslo1">Heslo</label>
+                        </div>
+                        <div class="input-field">
+                            <input id="profil-heslo2" type="password" placeholder="Heslo..." >
+                            <label for="profil-heslo2">Potvrdenie hesla</label>
+                        </div>
+                        <div class="card-action right-align">
+                            <button class="btn green waves-effect waves-light" type="submit">Odoslať</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="valign-wrapper row login-box">
+        <div class="col card hoverable s10 pull-s1 m6 pull-m3 l4 pull-l4">
+            <form id="kontaktne-udaje-formular" >
+                <div class="card-content">
+                    <h2 class="card-title input-field" style="padding-bottom: 1em;">Kontaktné údaje zákazníka</h2>
+                    <div class="col s12">
+                        <div class="input-field">
+                            <label for="kontakt-cele-meno">Meno a priezvisko</label>
+                            <input id="kontakt-cele-meno" type="text" placeholder="Meno a priezvisko..." value="{{kwargs['cele_meno']}}">
+                        </div>
+                        <div class="input-field">
+                            <label for="kontakt-ulica">Ulica a číslo</label>
+                            <input id="kontakt-ulica" type="text" placeholder="Ulica a číslo" value="{{kwargs['ulica_cislo']}}">
+                        </div>
+                        <div class="input-field">
+                            <label for="kontakt-psc">PSČ</label>
+                            <input id="kontakt-psc" type="text" placeholder="PSČ" value="{{kwargs['psc']}}">
+                        </div>
+                        <div class="input-field">
+                            <label for="kontakt-obec">Obec</label>
+                            <input id="kontakt-obec" type="text" placeholder="Obec" value="{{kwargs['obec']}}">
+                        </div>
+                        <div class="input-field">
+                            <label for="kontakt-email">Kontaktný e-mail</label>
+                            <input id="kontakt-email" type="email" placeholder="E-mail" value="{{kwargs['email']}}" >
+                        </div>
+                        <div class="input-field">
+                            <label for="kontakt-telefon">Telefón</label>
+                            <input id="kontakt-telefon" type="text" placeholder="Telefón" value="{{kwargs['telefon']}}">
+                        </div>
+                    
+                        <div class="card-action right-align">
+                            <button class="btn green waves-effect waves-light" type="submit">Odoslať</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="obsah" class="container">
+        {% if objednavky|length > 0 %}
+            <h2 class="center-align">História objednávok</h2>
+            <table class="striped responsive-table centered" >
+                <thead>
+                    <tr>
+                       <th>&nbsp;</th>
+                       <th>Stav objednávky</th>
+                       <th>Cena           </th>
+                       <th>Spôsob platby  </th>
+                       <th>Spôsob dopravy </th>
+                       <th>Dátum a čas    </th>
+                    </tr>
+                </thead>
+                <tbody id="zoznam-kosik">
+                    <!-- sem vlozime zaznamy -->
+                    {% for r in objednavky %}
+                        <tr>
+                            <td><a href="objednavka/{{ r.obj_id }}">Detail objednávky</a></td>
+                            <td>{{ r.obj_stav }}</td>
+                            <td>{{ '%0.2f' % r.obj_cena|float }}</td>
+                            <td>{{ r.sposob_platby }}</td>
+                            <td>{{ r.sposob_dopravy }}</td>
+                            <td>{{ r.obj_datum_cas }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+        <br>
+    </div>
+
+</main>
+{% include "footer.html" %}
+
+
+<script src="../static/js/jquery.min.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+
+    var validacia_povinny_udaj = function(value, text, min_length) {
+        var v = (_.isNaN(value) || _.isNull(value)) ? "" : value.trim();
+        console.log("validacia_povinny_udaj -> value.length" + v.length);
+        if (_.isEmpty(v) || (v.length < min_length)) {
+            alert(text);
+            return false;
+        }
+        return true;
+    };
+
+    var akcia_kontaktne_udaje_zmena = function () {
+        var _pou_id             = $("#pou-id").val();
+        var _kontakt_cele_meno  = $("#kontakt-cele-meno").val();
+        var _kontakt_ulica      = $("#kontakt-ulica").val();
+        var _kontakt_psc        = $("#kontakt-psc").val();
+        var _kontakt_obec       = $("#kontakt-obec").val();
+        var _kontakt_email      = $("#kontakt-email").val();
+        var _kontakt_telefon    = $("#kontakt-telefon").val();
+
+        if (!validacia_povinny_udaj(_kontakt_cele_meno, "Položka 'Meno a priezvisko' je nesprávne vyplnená!\n(min 5 znakov)", 5)
+            || !validacia_povinny_udaj(_kontakt_ulica,  "Položka 'Ulica a číslo' je nesprávne vyplnená!\n(min 5 znakov)", 5)
+            || !validacia_povinny_udaj(_kontakt_psc,    "Položka 'PSČ' je nesprávne vyplnená!\n(min 5 znakov)", 5)
+            || !validacia_povinny_udaj(_kontakt_obec,   "Položka 'Obec' je nesprávne vyplnená!\n(min 3 znaky)", 3)
+            || !validacia_povinny_udaj(_kontakt_email,  "Položka 'E-mail' je nesprávne vyplnená!\n(min 6 znakov)", 6)
+        ) {
+            return;
+        }
+
+        _kontakt_telefon = (_.isNaN(_kontakt_telefon) || _.isNull(_kontakt_telefon)) ? "" : _kontakt_telefon.trim();
+
+        $.ajax({
+            type: "PUT",
+            url: "/kontakt_zmena",
+            data: JSON.stringify({
+                'pou_id':    _pou_id,
+                'cele_meno': _kontakt_cele_meno,
+                'ulica' :   _kontakt_ulica,
+                'psc':      _kontakt_psc,
+                'obec':     _kontakt_obec,
+                'email':    _kontakt_email,
+                'telefon':  _kontakt_telefon }, null, '\t'),
+            dataType: "json",
+            contentType: "application/json;charset=UTF-8",
+            timeout: 993500,
+            success: function (data) {
+                if ( "chyba" in data) {
+                    alert("Zmena kontaktných údajov nebola úspešná! " + data.chyba);
+                } else {
+                    console.log(">>> akcia_kontaktne_udaje_zmena O.K.");
+                    alert("Zmena kontaktných údajov bola úspešná!");
+                    // location.replace('/prehlad')
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(">>> akcia_kontaktne_udaje_zmena Chyba!");
+            }
+        });
+
+    };
+
+    var akcia_profil_zmena = function() {
+        var _pou_id     = $("#pou-id").val();
+        var _meno       = $("#profil-meno").val();
+        var _heslo1     = $("#profil-heslo1").val();
+        var _heslo2     = $("#profil-heslo2").val();
+
+        console.log(
+            '_meno      :' + _meno      +
+            '_heslo1    :' + _heslo1    +
+            '_heslo2    :' + _heslo2
+        );
+
+        if (!validacia_povinny_udaj(_meno, "Položka 'Prihlasovacie meno' je nesprávne vyplnená!\n(min 5 znakov)", 5)
+            || !validacia_povinny_udaj(_heslo1, "Položka 'Heslo' je nesprávne vyplnená!\n(min 5 znakov)", 5)
+            || !validacia_povinny_udaj(_heslo2, "Vyplňte položku 'Potvrdenie hesla' !", 1)) {
+            return;
+        } else if (_heslo1.trim() != _heslo2.trim()) {
+            alert("Heslá sa nerovnajú!");
+            return;
+        }
+
+        $.ajax({
+            type: "PUT",
+            url: "/profil_zmena",
+            data: JSON.stringify({
+                'pou_id':_pou_id,
+                'meno' : _meno,
+                'heslo': _heslo1 }, null, '\t'),
+            dataType: "json",
+            contentType: "application/json;charset=UTF-8",
+            timeout: 993500,
+            success: function (data) {
+                if ( "chyba" in data) {
+                    alert("Zmena profilu nebola úspešná! " + data.chyba);
+                } else {
+                    console.log(">>> akcia_profil_zmena O.K.");
+                    alert("Zmena profilu bola úspešná!");
+                    // location.replace('/prehlad')
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(">>> akcia_profil_zmena Chyba!");
+            }
+        });
+    };
+
+    $("#profil-formular").submit(function(event) {
+        event.preventDefault();
+        akcia_profil_zmena();
+    });
+
+    $("#kontaktne-udaje-formular").submit(function(event) {
+        event.preventDefault();
+        akcia_kontaktne_udaje_zmena();
+    });
+
+</script>
+
+</body>
+</html>

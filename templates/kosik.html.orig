@@ -1,0 +1,285 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Nákupný košík</title>
+  <meta name="description" content="Nákupný košík">
+  <meta name="author" content="Patrik Grexa">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="stylesheet" href="../static/css/base-min.css">
+  <link rel="stylesheet" href="../static/css/grids-responsive-min.css">
+  <link rel="stylesheet" href="../static/css/menus-min.css">
+  <link rel="stylesheet" href="../static/css/forms-min.css">
+  <link rel="stylesheet" href="../static/css/tables-min.css">
+  <link rel="stylesheet" href="../static/css/buttons-min.css">
+  <link rel="stylesheet" href="../static/css/globalny_styl.css">
+
+  <!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <!-- OBSAH STRANKY -->
+
+  {% include "menu.html" %}
+
+  {% include "filter.html" %}
+
+  <main>
+        <div id="obsah" class="pure-g to-left kosik-obsah">
+
+            <div id="kosik-table" class="pure-u-5-5">
+                {% if kosik|length < 1 %}
+                     <h1 id="empty-cart">Váš nákupný košík je prázdny.</h1>
+                     {% include "galeria.html" %}
+
+                {% else %}
+
+                
+                
+                      
+                    <table class="pure-table pure-table-bordered" >
+                        <thead>
+                            <tr>
+                               <th colspan="2">Položka</th>
+                               <th>Cena</th>
+                               <th colspan="2">Počet</th>
+                               <th>Celkom</th>
+                            </tr>
+                        </thead>
+                        <tbody id="zoznam-kosik">
+                            <!-- sem vlozime zaznamy -->
+                            {% for r in kosik %}
+                                <tr class="produkt">
+                                  <td><img src="../static/img/velke/{{r.obrazok}}" width="50" height="50" /></td>
+                                  <td><a class="kosik-zaznam" href="/produkt/{{r.pro_id}}">{{r.nazov}}</a></td>
+                                  <td class="cislo">{{'%0.2f' % r.jedn_cena|float}}&nbsp;€ </td>
+                                  <td class="cislo">{{r.pocet}}</td>
+                                  <td>
+                                      <button class="button-small pure-button pocet-minus" onclick="onPlusMinusClick( {{r.pol_id}}, -1 )">-</button>
+                                      <button class="button-small pure-button pocet-plus"  onclick="onPlusMinusClick( {{r.pol_id}}, +1 )">+</button>
+                                  </td>
+                                  <td class="cislo">{{'%0.2f' % r.suma_riadku|float}}&nbsp;€ </td>
+                                </tr>
+                            {% endfor %}
+                            <tr>
+                               <td colspan="6">
+                                   <span style="font-size: 2em;">Celková cena: {{'%0.2f' % celkova_cena|float}}&nbsp;€</span>
+                                   <button id="zobraz-form" onclick="zobrazFormular()" class="pure-button pure-button-primary" style="float: right">Objednať</button>
+                               </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- skryty formular -->
+                    <div id="objednavka-formular-div" style="visibility: hidden; position: absolute">
+                        <form id="objednavka-formular" class="pure-form pure-form-aligned" method="post">
+                            <fieldset>
+
+                                <table>
+                                    <tr>
+                                        <td id="kosik-left">
+
+                                            <div class="pure-control-group">
+                                                <label for="meno">Meno a priezvisko</label>
+                                                <input id="meno" type="text" placeholder="Meno a priezvisko..." class="pure-input-1-2 udaje" value="{{kwargs['cele_meno']}}" readonly>
+                                            </div>
+
+                                            <div class="pure-control-group">
+                                                <label for="ulica">Ulica a číslo</label>
+                                                <input id="ulica" type="text" placeholder="Ulica a číslo" class="pure-input-1-2 udaje" value="{{kwargs['ulica_cislo']}}" readonly>
+                                            </div>
+
+                                            <div class="pure-control-group">
+                                                <label for="psc">PSČ</label>
+                                                <input id="psc" type="text" placeholder="PSČ" class="pure-input-1-2 udaje" value="{{kwargs['psc']}}" readonly>
+                                            </div>
+
+                                            <div class="pure-control-group">
+                                                <label for="obec">Obec</label>
+                                                <input id="obec" type="text" placeholder="Obec" class="pure-input-1-2 udaje" value="{{kwargs['obec']}}" readonly>
+                                            </div>
+
+                                            <div class="pure-control-group">
+                                                <label for="email">Kontaktný e-mail</label>
+                                                <input id="email" type="email" placeholder="E-mail" class="pure-input-1-2 udaje" value="{{kwargs['email']}}" readonly>
+                                            </div>
+                                        <td>
+
+                                        <td id="kosik-right" class="vertical-top-aligned">
+                                            <div class="pure-control-group">
+                                                <label for="platba">Spôsob platby</label>
+                                                <select id="platba" class="pure-input-1-2 udaje">
+                                                    <option value="0">Neurčený...</option>
+                                                    <option value="1">Dobierka</option>
+                                                    <option value="2">Prevodom na účet</option>
+                                                    <option value="3">Zrýchlená platba</option>
+                                                </select>
+                                                <span id="platba-status" class="chyba">Položka "Spôsob platby" je povinná! (vyberte "Spôsob platby")</span>
+                                            </div>
+
+                                            <div class="pure-control-group">
+                                                <label for="doprava">Spôsob dopravy</label>
+                                                <select id="doprava" class="pure-input-1-2 udaje">
+                                                    <option value="0">Neurčený...</option>
+                                                    <option value="1">Osobný odber (0,00 €)</option>
+                                                    <option value="2">Slovenská pošta (3,00 €)</option>
+                                                    <option value="3">Kuriér (5,00 €)</option>
+                                                </select>
+                                            </div>
+                                        <td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <div id="kosik-potvrdenie" class="pure-controls">
+                                                <label for="cb" class="pure-checkbox">
+                                                    <input id="cb" type="checkbox">
+                                                    Súhlasím s obchodnými podmienkami elektronického obchodu
+                                                </label>
+
+                                                <button id="kosik-confirm" class="pure-button pure-button-primary" type="button" onclick="odosliObjednavku()">
+                                                    Záväzne objednať
+                                                </button>
+                                            </div>
+                                        <td>
+                                    </tr>
+                                </table>
+
+                            </fieldset>
+                        </form>
+                    </div>
+                    {% include "galeria.html" %}
+                {% endif %}
+            </div>
+        </div>
+    </main>
+
+    {% include "footer.html" %}
+
+  <!-- JS SKRIPTY -->
+  <script src="../static/js/underscore.js"    type="text/javascript"></script>
+  <script src="../static/js/jquery.min.js"    type="text/javascript"></script>
+  <script src="../static/js/backbone.js"      type="text/javascript"></script>
+  <script src="../static/js/global_model.js"  type="text/javascript"></script>
+  <script src="../static/js/obrazky_model.js" type="text/javascript"></script>
+  
+  <script type="text/javascript">
+
+      var kontrola = function (obj) {
+        return !(_.isNaN(obj) || _.isNull(obj) || _.isUndefined(obj) || _.isEmpty(obj));
+      };
+
+      var odosliObjednavku = function () {
+          var currentdate = new Date();
+          var timeStr = "" + currentdate.getDate()
+                  + (currentdate.getMonth()+1)
+                  + currentdate.getFullYear()
+                  + currentdate.getHours()
+                  + currentdate.getMinutes()
+                  + currentdate.getSeconds();
+
+          var povinnePolozky = [
+              "#meno|Položka \"Meno a priezvisko\" je povinná!",
+              "#ulica|Položka \"Ulica a číslo\" je povinná!",
+              "#psc|Položka \"PSČ\" je povinná!",
+              "#obec|Položka \"Obec\" je povinná!",
+              "#email|Položka \"Kontaktný e-mail\" je povinná!",
+              "#platba|Vyberte \"Spôsob platby\" !",
+              "#doprava|Vyberte \"Spôsob dopravy\" !"
+          ];
+
+          var chyby = [];
+          var pattern = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+          povinnePolozky.forEach(function(entry) {
+              var obj = entry.split("|")[0];
+              var value = $(obj).val();
+              if (_.isNaN(value)
+                      || _.isNull(value)
+                      || _.isUndefined(value)
+                      || _.isEmpty(value)
+                      || value == "0") {
+                  chyby.push(entry);
+                  $(obj).css("background-color","#ffdddd");
+              } else if (obj == "#email" && !pattern.test(value)) {
+                  chyby.push("#email|V položke 'Kontaktný e-mail' ste zadali nesprávnu e-mailovú adresu!");
+                  $(obj).css("background-color","#ffdddd");
+              } else {
+                  $(obj).css("background-color","#eeffee");
+              }
+          });
+
+          if (!_.isEmpty(chyby)) {
+              // nastavime focus na prvu chybnu polozku
+              var obj = chyby[0].split("|")[0];
+              $(obj).focus();
+
+              // zobrazujeme zistene chyby
+              var textChyby = "-----------------------------\n" +
+                              " Zoznam chýb: \n" +
+                              "-----------------------------\n";
+              chyby.forEach(function (entry) {
+                  textChyby = textChyby + "\n   * " + entry.split("|")[1] + "\n";
+              });
+              alert(textChyby);
+              return;
+          }
+
+          $.ajax({
+              type: "PUT",
+              url: "/kosik",
+              data: JSON.stringify({
+                  'meno':  $('#meno').val(),
+                  'ulica': $('#ulica').val(),
+                  'psc': $('#psc').val(),
+                  'obec': $('#obec').val(),
+                  'email': $('#email').val(),
+                  'platba': $('#platba').val(),
+                  'doprava': $('#doprava').val()
+              }, null, '\t'),
+              dataType: "json",
+              contentType: "application/json;charset=UTF-8",
+              timeout: 993500,
+              success: function () {
+                  document.cookie = 'session_id=; Max-Age=-99999999;';
+                  location.reload();
+              },
+              error: function (jqXHR, textStatus, errorThrown) {
+                  console.log(">>> odosliObjednavku Chyba!");
+              }
+          });
+      };
+
+      var zobrazFormular = function () {
+          var element = $('#objednavka-formular-div');
+          if (element.css('visibility') == 'hidden') {
+              element.css('visibility', 'visible');
+              element.css('position', 'relative');
+              $('#zobraz-form').css('visibility', 'hidden');
+          }
+      };
+
+      var onPlusMinusClick = function(_pol_id, _zmena) {
+          console.log (">> _zmena:"  + _zmena);
+          console.log (">> _pol_id:" + _pol_id);
+          $.ajax({
+            type: "PUT",
+            url:  "/plusminus",
+            data: JSON.stringify({
+                'pol_id' : _pol_id,
+                'zmena'  : _zmena
+            }, null, '\t'),
+            dataType: "json",
+            contentType: "application/json;charset=UTF-8",
+            timeout: 993500,
+            success: function() {
+                location.reload();
+            } ,
+            error: function (jqXHR, textStatus, errorThrown) { console.log(">>> plusminus Chyba!"); }
+        });
+      };
+  </script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+<aside id="menu" class="lavy-blok">
+    <div id="filter-produktov" class="row">
+        <!-- <a class="pure-menu-heading heading" href="/prehlad">Internetový <br> obchod</a> -->
+        <div id="kategoria-filter" class="collection col s6">
+
+        </div>
+    </div>
+</aside>

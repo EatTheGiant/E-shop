@@ -1,0 +1,83 @@
+<!doctype html>
+<!--TODO
+  ///side menu upravit tak aby sa dalo preskakovat na produkty zo vsetkych podstranok
+  ///Urobit galeriu 
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Produkt</title>
+  <meta name="description" content="Produkt">
+  <meta name="author" content="Patrik Grexa">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  {% include "include_head.html" %}
+
+</head>
+<body>
+    {% include "menu.html" %}
+
+  <!-- OBSAH STRANKY -->
+    <div class="container">
+      <div class="nav-wrapper">
+        <div class="row">
+          <div class="col s12 m10 offset-m2 blue-text text-darken-2">
+            <header class="header">
+              <h3>Zoznam produktov pre editáciu</h3>
+            </header>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+	<main id="produkt-editacia-zoznam" >
+      <div id="obsah" class="container row">
+            <a href="/produkt_editacia/0" class="btn green waves-effect waves-light input-field">Pridať produkt</a>
+            <br><br><br>
+            {% if produkty|length < 1 %}
+                <h2>Neexistuje produkt!</h2>
+            {% else %}
+                <table class="striped responsive-table z-depth-1" >
+                    <thead>
+                        <tr>
+                           <th class="center-align">Id             </th>
+                           <th class="center-align">Názov          </th>
+                           <th class="center-align">Názov kategórie</th>
+                           <th class="center-align">Popis          </th>
+                           <th class="center-align">Cena           </th>
+                           <th class="center-align">&nbsp;         </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- sem vlozime zaznamy -->
+                        {% for r in produkty %}
+                            <tr>
+                                <td class="center-align" style="padding: 0px 10px"><a href="produkt/{{ r.id }}">{{ r.id }}</a></td>
+                                <td class="center-align">{{ r.nazov      }}</td>
+                                <td class="center-align">{{ r.kat_nazov  }}</td>
+                                <td>{{ r.popis      }}</td>
+                                <td>{{ '%0.2f' % r.cena|float }}</td>
+                                <td style="padding: 0px 10px"><a href="produkt_editacia/{{ r.id }}" class="pure-button">Upraviť</a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+      </div>
+	</main>
+
+  {% include "footer.html" %}
+
+  <!-- JS SKRIPTY -->
+  <script src="../static/js/underscore.js"    type="text/javascript"></script>
+  <script src="../static/js/jquery.min.js"    type="text/javascript"></script>
+  <script src="../static/js/backbone.js"      type="text/javascript"></script>
+  <script src="../static/js/global_model.js"  type="text/javascript"></script>
+  <script>
+      $(document).ready(function() {
+
+      });
+  </script>
+</body>
+</html>

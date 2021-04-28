@@ -1,0 +1,6 @@
+<div style="margin: 20px;">
+    <h2 id="gallery-text">Mohlo by vás zaujímať.</h2>
+    <div id="gallery-zoznam" class="row">
+        
+    </div>
+</div>
